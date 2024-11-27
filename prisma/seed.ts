@@ -5,14 +5,14 @@ async function up() {
   await prisma.user.createMany({
     data: [
       {
-        fullName: 'User',
+        fullName: 'User TEST',
         email: 'user@test.ru',
         password: hashSync('111111', 10),
         verified: new Date(),
         role: 'USER',
       },
       {
-        fullName: 'Admin',
+        fullName: 'Admin Admin',
         email: 'userAdmin@test.ru',
         password: hashSync('111111', 10),
         verified: new Date(),
@@ -22,7 +22,9 @@ async function up() {
   });
 }
 
-async function down() {}
+async function down() {
+  await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
+}
 
 async function main() {
   try {
@@ -32,3 +34,13 @@ async function main() {
     console.error(error);
   }
 }
+
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
