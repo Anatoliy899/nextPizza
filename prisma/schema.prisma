@@ -15,7 +15,7 @@ model User {
     email String @unique
     password String
     role UserRole @default(USER)
-    verified DateTime
+    
 
     provider String?
     providerId String?
@@ -26,6 +26,8 @@ model User {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    verified DateTime
 
 }
 
@@ -44,11 +46,11 @@ model Product {
     name String
     imageUrl String
 
-    category Category @relation(fields: [categoryId], references: [id])
-    categoryId Int
-
     ingredients Ingredient[]
     items ProductItem[]
+
+    category Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -58,7 +60,7 @@ model Product {
 model ProductItem {
     id Int @id @default(autoincrement()) 
 
-    prise Int
+    price Int
     size Int?
     pizzaType Int? 
 
@@ -154,7 +156,7 @@ model VerificationCode {
 
     code String
 
-    expiresAt DateTime @default(now())
+    createdAt DateTime @default(now())
 }
 
 enum OrderStatus {
