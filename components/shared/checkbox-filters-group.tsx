@@ -2,6 +2,7 @@
 import React from 'react';
 import { FilterChecboxProps, FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui/input';
+import { Skeleton } from '../ui/skeleton';
 
 type Item = FilterChecboxProps;
 
@@ -10,10 +11,13 @@ interface Props {
   items: Item[];
   defaultItems: Item[];
   limit?: number;
+  loading?: boolean;
   searchInputPlaceholder?: string;
   className?: string;
-  onChange?: (values: string[]) => void;
+  onClickCheckbox?: (id: string) => void;
   defaultValue?: string[];
+  selectedIds?: Set<string>;
+  name?: string;
 }
 
 export const CheckboxFiltersGroup: React.FC<Props> = ({
@@ -23,7 +27,10 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   limit = 5,
   searchInputPlaceholder = 'Поиск...',
   className,
-  onChange,
+  loading,
+  onClickCheckbox,
+  selectedIds,
+  name,
   defaultValue,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
@@ -32,6 +39,18 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
+
+  if (loading) {
+    return (
+      <div>
+        <p className="font-bold mb-3">{title}</p>
+        {[...Array(limit)].map((_, i) => (
+          <Skeleton key={i} className="h-6 mb-4 rounded-[8px]" />
+        ))}
+        <Skeleton className="w-28 h-6 mb-4 rounded-[8px]" />
+      </div>
+    );
+  }
 
   const list = showAll
     ? items.filter((item) =>
@@ -56,12 +75,13 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
         {list.map((item) => (
           <FilterCheckbox
-            onCheckedChange={(ids) => console.log(ids)}
-            checked={false}
+            checked={selectedIds?.has(item.value)}
             key={String(item.value)}
             value={item.value}
             text={item.text}
             endAdornment={item.endAdornment}
+            onCheckedChange={() => onClickCheckbox?.(item.value)}
+            name={name}
           />
         ))}
       </div>
