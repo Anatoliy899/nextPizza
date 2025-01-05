@@ -30,9 +30,11 @@ export const Filters: React.FC<Props> = ({ className }) => {
     keyof QueryFilters,
     string
   >;
+
   const router = useRouter();
   const { ingredients, loading, onAddId, selectedIngredients } =
-    useFilterIngredients();
+    useFilterIngredients(searchParams.get('ingredients')?.split(','));
+
   const [{ priceFrom, priceTo }, setPrice] = React.useState<PriceProps>({
     priceFrom: Number(searchParams.get('priceFrom')) || undefined,
     priceTo: Number(searchParams.get('priceTo')) || undefined,
