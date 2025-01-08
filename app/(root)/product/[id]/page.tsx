@@ -1,10 +1,10 @@
-import { Container } from '@/components/shared/container';
-import { GroupVariants } from '@/components/shared/products/group-variants';
-import { ProductImage } from '@/components/shared/products/product-image';
-import { Title } from '@/components/shared/title';
+import { Container } from '@/shared/components/shared/container';
+import { GroupVariants } from '@/shared/components/shared/products/group-variants';
+import { Title } from '@/shared/components/shared/title';
 import { prisma } from '@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { PizzaImage } from '@/shared/components/shared/products/pizza-image';
 
 export default async function ProductPage({
   params: { id },
@@ -18,7 +18,7 @@ export default async function ProductPage({
   return (
     <Container className="flex flex-col my-10">
       <div className="flex flex-1">
-        <ProductImage imageUrl={product.imageUrl} size={40} />
+        <PizzaImage imageUrl={product.imageUrl} size={40} />
         <div className="w-[490px] bg-[#f3f2f2] p-7">
           <Title
             text={product.name}
