@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 import { ArrowRight, ShoppingCart, User } from 'lucide-react';
 import Link from 'next/link';
 import { SearchInput } from './search-input';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@/lib/utils';
 
 interface Props {
   className?: string;

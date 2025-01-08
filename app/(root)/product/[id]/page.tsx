@@ -1,10 +1,10 @@
-import { Container } from '@/shared/components/shared/container';
-import { GroupVariants } from '@/shared/components/shared/products/group-variants';
-import { Title } from '@/shared/components/shared/title';
+import { Container } from '@/components/shared/container';
+import { GroupVariants } from '@/components/shared/products/group-variants';
+import { Title } from '@/components/shared/title';
 import { prisma } from '@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
 import React from 'react';
-import { PizzaImage } from '@/shared/components/shared/products/pizza-image';
+import { PizzaImage } from '@/components/shared/products/pizza-image';
 
 export default async function ProductPage({
   params: { id },

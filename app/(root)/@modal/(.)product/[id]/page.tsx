@@ -1,5 +1,5 @@
-import { Container } from '@/shared/components/shared/container';
-import { ChooseProductModal } from '@/shared/components/shared/modals/choose-product-modal';
+import { Container } from '@/components/shared/container';
+import { ChooseProductModal } from '@/components/shared/modals/choose-product-modal';
 import { prisma } from '@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
 import React from 'react';
