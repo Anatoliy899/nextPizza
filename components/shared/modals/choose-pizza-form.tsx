@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { PizzaImage } from '../products/pizza-image';
 import { GroupVariants } from '../products/group-variants';
 import {
+  mapPizzaType,
   PizzaSize,
   pizzaSizes,
   PizzaType,
@@ -37,11 +38,26 @@ export const ChoosePizzaForm: React.FC<Props> = ({
     new Set<number>([])
   );
 
-  const textDetaills = '30 см, традиционное тесто 30';
-  const totalPrice = 350;
+  const pizzaPrice =
+    items.find((item) => item.pizzaType === type && item.size === size)
+      ?.price || 0;
+  const totalIngredientsPrice = ingredients
+    .filter((ingredient) => selectedIngredients.has(ingredient.id))
+    .reduce((acc, ingredient) => acc + ingredient.price, 0);
 
-  console.log(items);
+  const totalPrice = pizzaPrice + totalIngredientsPrice;
 
+  const textDetaills = `${size} см, ${mapPizzaType[type]} пицца`;
+
+  const handleClickAdd = () => {
+    onClickAddCart?.();
+    console.log({
+      size,
+      type,
+      ingredients: selectedIngredients,
+      name,
+    });
+  };
   return (
     <div className={cn(className, 'flex flex-1')}>
       <PizzaImage imageUrl={imageUrl} size={size} />
@@ -79,7 +95,10 @@ export const ChoosePizzaForm: React.FC<Props> = ({
           </div>
         </div>
 
-        <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+        <Button
+          onClick={handleClickAdd}
+          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+        >
           Добавить в корзину за {totalPrice} ₽
         </Button>
       </div>
