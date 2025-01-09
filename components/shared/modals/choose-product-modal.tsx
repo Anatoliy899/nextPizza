@@ -4,9 +4,8 @@ import { cn } from '@/lib/utils';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 import { ChooseProductForm } from './choose-product-form';
-import { ProductWithRelations } from '@/@types/prisma';
-import { PizzaImage } from '../products/pizza-image';
 import { ChoosePizzaForm } from './choose-pizza-form';
+import { ProductWithRelations } from '@/@types/prisma';
 
 interface Props {
   product: ProductWithRelations;
@@ -27,7 +26,8 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
           <ChoosePizzaForm
             imageUrl={product.imageUrl}
             name={product.name}
-            ingredients={[]}
+            ingredients={product.ingredients}
+            items={product.items}
           />
         ) : (
           <ChooseProductForm imageUrl={product.imageUrl} name={product.name} />
