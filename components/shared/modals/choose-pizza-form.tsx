@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Ingredient, ProductItem } from '@prisma/client';
 import { cn } from '@/lib/utils';
@@ -58,6 +60,27 @@ export const ChoosePizzaForm: React.FC<Props> = ({
       name,
     });
   };
+
+  const filteredPizzasByType = items.filter((item) => item.pizzaType === type);
+  const availablePizzaSizes = pizzaSizes.map((item) => ({
+    name: item.name,
+    value: item.value,
+    disabled: !filteredPizzasByType.some(
+      (pizza) => Number(pizza.size) === Number(item.value)
+    ),
+  }));
+
+  React.useEffect(() => {
+    const isAvailableSize = availablePizzaSizes?.find(
+      (item) => Number(item.value) === size && !item.disabled
+    );
+    const availableSize = availablePizzaSizes?.find((item) => !item.disabled);
+
+    if (!isAvailableSize && availableSize) {
+      setSize(Number(availableSize.value) as PizzaSize);
+    }
+  }, [type]);
+
   return (
     <div className={cn(className, 'flex flex-1')}>
       <PizzaImage imageUrl={imageUrl} size={size} />
@@ -68,7 +91,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 
         <div className="flex flex-col gap-4">
           <GroupVariants
-            items={pizzaSizes}
+            items={availablePizzaSizes}
             value={String(size)}
             onClick={(value) => setSize(Number(value) as PizzaSize)}
           />
