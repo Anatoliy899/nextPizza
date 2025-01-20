@@ -1,0 +1,52 @@
+import { create } from 'zustand';
+import { Api } from '@/services/api-client';
+import { CartStateItem, getCartDetails } from '@/lib/get-cart-details';
+
+export interface CartState {
+  loading: boolean;
+  error: boolean;
+  totalAmount: number;
+  items: CartStateItem[];
+
+  /* Получение товаров из корзины */
+  fetchCartItems: () => Promise<void>;
+
+  /* Запрос на обновление количества товара */
+  updateItemQuantity: (id: number, quantity: number) => Promise<void>;
+
+  /* Запрос на добавление товара в корзину  CreateCartItemValues */
+  addCartItem: (values: any) => Promise<void>;
+
+  /* Запрос на удаление товара из корзины */
+  removeCartItem: (id: number) => Promise<void>;
+}
+
+export const useCartStore = create<CartState>((set, get) => ({
+  items: [],
+  error: false,
+  loading: false,
+  totalAmount: 0,
+
+  /* Получение товаров из корзины */
+  fetchCartItems: async () => {
+    try {
+      set({ loading: true, error: false });
+      const data = await Api.cart.fetchCart();
+      set(getCartDetails(data));
+    } catch (error) {
+      console.error(error);
+      set({ error: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  /* Запрос на обновление количества товара */
+  updateItemQuantity: async (id: number, quantity: number) => {},
+
+  /* Запрос на добавление товара в корзину  CreateCartItemValues */
+  addCartItem: async (values: any) => {},
+
+  /* Запрос на удаление товара из корзины */
+  removeCartItem: async (id: number) => {},
+}));
