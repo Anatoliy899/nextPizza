@@ -1,5 +1,4 @@
 import { CartItemDTO } from '@/services/dto/cart.dto';
-import React from 'react';
 
 interface Props {
   className?: string;
