@@ -1,4 +1,4 @@
-import { CartItemDTO } from '@/services/dto/cart.dto';
+import { CartItemDTO } from '../services/dto/cart.dto';
 
 interface Props {
   className?: string;
